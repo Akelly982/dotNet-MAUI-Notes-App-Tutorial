@@ -1,0 +1,282 @@
+visual studio 
+.net MAUI 
+-- docs 
+https://docs.microsoft.com/en-us/dotnet/maui/get-started/first-app?tabs=vswin&pivots=devices-windows
+https://docs.microsoft.com/en-us/dotnet/maui/tutorials/notes-app/
+
+
+for app development on windows the developer mode needs to be on within the windows device.
+settings
+- developer settings
+	- developer mode = on
+This allows for loose file downloads and installation of apps from any source !!!!!!.
+
+
+
+---------------------------
+---------------------------
+
+MauiProgram.cs
+ - code file used to bootstrap your app. the cross platform entry point of the app which configuires and starts the app. The template startup code points to the APP class defined by the App.xaml file.
+
+
+App.xaml and App.xaml.cs
+- these two files work in correlation to each other. their are generally two files that come with an xaml file the xaml file its self and the corresponding child code file. The .xaml file ontains XAML markup and the code file contains code created to interact with it.
+
+AppShell.xaml and AppShell.xaml.cs
+ - This file defines the AppShell class, which is used to define visual hierarchy.
+
+MainPage.xaml and MainPage.xaml.cs
+ - This is the startup page displayed by the app. The MainPage.xaml file defines the UI of the page and the child cs code page contains the code-behind for the xaml
+
+
+
+------------------------
+------------------------
+
+
+Adding a new page
+What you are looking for is.
+- .NET MAUI ContentPage (XAML)
+
+
+
+------------------------
+------------------------
+---- xaml Controls ----
+----------
+
+<content page>   
+	- the root object of the page
+<VerticleStackLayout>
+	- stacks children vertically 
+	- can have multiple children 
+
+<HorizontalAStackLayout>
+	- same as verticle stack but horizontal
+<image>
+<label>
+<button>
+	- has a click event 
+	- clicked="somthing_Clicked"
+	- The Clicked event of the button is assigned to the somthing_Clicked event handler, defined in the code-behind file. You'll create this code later
+	- you can right click the xaml event text and use "go to definition" to auto create in the xaml.cs file.
+
+<Editor>
+	- is a multi-line text editor control
+<grid>
+	- by default the <grid> control contains a single row and column creating a single cell.
+	- columns are defined with a width and the * notaition refers to taking up as much space as possible. 
+	- ColumnDefintions="*,*" says to make 2 columns as wide as possible
+
+
+
+
+-------------------------------
+------------------------------
+---- codeBehind xaml.cs  ----
+----------
+
+handles events and general code referenced within the main xaml file.
+
+InitializeComponent();
+	- This method reads the XAML markup and initializes all of the objects defined by the markup. The objects are connected in their parent child relationships and the event handlers defined in code are attached to events set in the xaml.
+
+
+
+
+------------------------
+------------------------
+---- AppShell.xaml ----
+----------
+Sometimes this is also refered to as the apps visual tree.
+
+<Shell> 
+	- the root object of the xaml markup
+<TabBar>
+	- is the content of the shell
+<ShellContent>
+	- the shell content can be used within the <TabBar> or on its own.
+
+--Note--
+The <TabBar> and its children dont represent any UI elements, but rather the organization of the app's visual hierarchy. Shell will take these objects and produce the user interface for the content.
+
+Each <ShellContent> object is pointing to a page to display. this is set by the ContentTemplate setting/key within <ShellContent> 
+
+-----------------
+-----------------
+AppShell.xaml.cs
+-----------------
+All pages within the app have to be declared within the app.
+
+Adding a page that is not directly added through the visual tree / .xaml within <TabBar> in the a given case.
+
+use the below code in the codebehind to register a page not shown within the visual tree / main .xaml
+	Routing.RegisterRoute(nameof(Views.NotePage), typeof(Views.NotePage));
+
+Routing.RegisterRoute(x,x)
+	The first variable is the string name of the uri yopu want to register.
+	The second parameter is the type of pageto load when "NotePage" is navigated to.
+
+
+
+--------------------
+-------------------
+-------------------
+Views, Models and in-app navigation
+----------
+
+Views 
+	- A view is what they call pages added to the project. MainPage, AboutPage all represent a view of data.
+	- An About Page 
+
+Models
+	- The model is the data that is embedded in the views. Here we create a class to handle all the data called on by the view. For a notes page it is notes data and for an about page it is descriptions, titles, dates, etc.
+
+
+## GOOD PRACTICE ##
+It is good practice to seperate Views and Models into seperate folders under you app project
+
+
+- App project folder  
+	- Views
+		- SomePage.xaml
+			- SomePage.xaml.cs
+		- AnPage.xaml
+			- AnPage.xaml.cs
+	- Models
+		- SomePage.cs
+		- AnPage.cs
+
+
+----------
+---- view / page.xaml update  -----
+----------
+Dont forget to update your namespaces
+namespace myApp.Views   <- in xaml.cs
+x:Class="myApp.Views.SomePage"   <- in xaml
+
+
+----------
+--- AppShell.xaml ---
+----------
+Dont forget to update you shell namespaces
+In this case a .net namespace is imported into a the XAML through an XML namespace declaration.
+
+line before:
+xmlns:local="clr-namespace:myApp";
+
+line after update:
+xmlns:local="clr-namespace:myApp.Views"
+
+line formating for reference
+xmlns:{XML namespace name}="clr-namespace:{.NET namespace}"
+
+
+
+----------
+-----Models implementation with xaml ------
+----------
+Models classes added with addition declaration within view .xaml file.
+content page property "xmlns:models"
+	xmlns:models="clr-namespace:Notes.Models" 
+
+contentPage.Binding control addition
+	<ContentPage.BindingContext>
+		<models:About />
+	</ContentPage.BindingContext>
+    
+This is then later referenced within the xmal using "{Binding varName}"
+
+
+
+--- xaml xml attribute and property element syntax comparison ---------
+Both syntaxes work at achieving the same goal but the property element syntax may be benificial for controls with larger property sets or objects.
+
+xml attriute:
+	<Label> FontSize = "22" />
+	<Label> FontSize = "22" FontAttributes = "Bold" etcThing = "55"
+
+property element syntax:
+	<Label>
+		<Label.FontSize>
+			22
+		</Label.FontSize>
+	</Label>
+
+
+--- BindingContext -----
+This is how we acces model data within the xaml.
+The BindingContext property of the ContentPage is set to an instance of the Note.Models.About class, using the XML namespace and object of models:About. this is done using property element syntax instead of an xml attribute.
+
+<ContentPage.BindingContext>
+        <models:About />
+</ContentPage.BindingContext>
+
+
+---- Binding Sytax -------
+{Binding PATH}
+{Binding VarName}
+
+The {Binding} syntax is processed at run-time, allowing the value returned from the binding to be dynamic.
+The {PATH} portion of {Binding PATH} is the property path to bind to. The property comes from the current control's BindingContext. With the Label controls binding context being unset it defaults to the ContentPage BindingContext which we set using property element syntax.
+The object set in the BindingContext is an instace of the about model. The binding path of one of the given label control binds the Label.Text property of the control to the About.Title property of the Model class.
+
+
+--- Binding syntax in the code behind -----
+
+-- FINDING IT FROM DECLERATION WITHIN THE XAML --
+Use and if Statement to determin the Binding Context.
+	if (BindingContext is Models.About about){
+		string x = about.SomeStringProperty.
+	}
+
+The Above if checks if the BindingContext is Models.About and if it is assigns
+        // its assigned to the about variable..    <-- not bad gramar that is how it is written in the documentation
+
+-- CREATE IT FROM DECLERATION WITHIN THE XAML.CS CODE BEHIND --
+Create an object of the class like any other class then set it to the BindingContext.
+
+	Models.About aboutModel = new Models.About()
+	BindingContext = aboutModel.
+
+This must be done within the xaml.cs / code behind constructor.
+
+
+
+
+
+----------
+----- App Navigation outside of AppShell.xaml ------
+----------
+
+Notice the await and async keyword's
+To use the await keyword on the app navigation code line the method / function must be stated as async.
+
+	private async void Add_Clicked(object sender, EventArgs e)
+	{
+        await Shell.Current.GoToAsync(nameof(NotePage));
+	}
+
+
+
+
+
+----------
+------ Life Cycle -------------------
+----------
+Within the View codeBehind
+
+	protected override void OnAppearing()
+    	{
+		someCode
+    	}
+
+
+
+
+----------------
+Look into later
+----------------
+LINQ Extensions to handle collection data ?
+.NET MAUI shell <-- handles app navigation
