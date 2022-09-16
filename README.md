@@ -5,6 +5,7 @@ visual studio
 
 **docs** 
 [.NET MAUI getting started](https://docs.microsoft.com/en-us/dotnet/maui/get-started/first-app?tabs=vswin&pivots=devices-windows)
+
 [.NET MAUI tutorial note app](https://docs.microsoft.com/en-us/dotnet/maui/tutorials/notes-app/)
 
 
@@ -20,17 +21,17 @@ This allows for loose file downloads and installation of apps from any source !!
 ---------------------------
 ---------------------------
 
-#MauiProgram.cs
+# MauiProgram.cs
  - code file used to bootstrap your app. the cross platform entry point of the app which configuires and starts the app. The template startup code points to the APP class defined by the App.xaml file.
 
 
-#App.xaml and App.xaml.cs
+# App.xaml and App.xaml.cs
 - these two files work in correlation to each other. their are generally two files that come with an xaml file the xaml file its self and the corresponding child code file. The .xaml file ontains XAML markup and the code file contains code created to interact with it.
 
-#AppShell.xaml and AppShell.xaml.cs
+# AppShell.xaml and AppShell.xaml.cs
  - This file defines the AppShell class, which is used to define visual hierarchy.
 
-#MainPage.xaml and MainPage.xaml.cs
+# MainPage.xaml and MainPage.xaml.cs
  - This is the startup page displayed by the app. The MainPage.xaml file defines the UI of the page and the child cs code page contains the code-behind for the xaml
 
 
@@ -39,16 +40,15 @@ This allows for loose file downloads and installation of apps from any source !!
 ------------------------
 
 
-#Adding a new page#
+# Adding a new page
 What you are looking for is.
 - .NET MAUI ContentPage (XAML)
 
 
 
-------------------------
-------------------------
----- xaml Controls ----
-----------
+---
+## ---- xaml Controls ----
+
 
 <content page>   
 	- the root object of the page
@@ -77,7 +77,7 @@ What you are looking for is.
 
 
 ---
-##---- codeBehind xaml.cs  ----
+## ---- codeBehind xaml.cs  ----
 
 
 handles events and general code referenced within the main xaml file.
@@ -90,7 +90,7 @@ InitializeComponent();
 
 
 ---
-##---- AppShell.xaml ----
+## ---- AppShell.xaml ----
 
 Sometimes this is also refered to as the apps visual tree.
 
@@ -108,7 +108,7 @@ Each <ShellContent> object is pointing to a page to display. this is set by the 
 
 
 ---
-##----- AppShell.xaml.cs -----
+## ----- AppShell.xaml.cs -----
 
 All pages within the app have to be declared within the app.
 
@@ -192,7 +192,7 @@ This is then later referenced within the xmal using "{Binding varName}"
 
 
 
-#--- xaml xml attribute and property element syntax comparison ---------
+# --- xaml xml attribute and property element syntax comparison ---------
 Both syntaxes work at achieving the same goal but the property element syntax may be benificial for controls with larger property sets or objects.
 
 xml attriute:
@@ -207,7 +207,7 @@ property element syntax:
 	</Label>
 
 
-#--- BindingContext -----
+# --- BindingContext -----
 This is how we acces model data within the xaml.
 The BindingContext property of the ContentPage is set to an instance of the Note.Models.About class, using the XML namespace and object of models:About. this is done using property element syntax instead of an xml attribute.
 
@@ -216,7 +216,7 @@ The BindingContext property of the ContentPage is set to an instance of the Note
 </ContentPage.BindingContext>
 
 
-#---- Binding Sytax -------
+# ---- Binding Sytax -------
 {Binding PATH}
 {Binding VarName}
 
@@ -225,7 +225,7 @@ The {PATH} portion of {Binding PATH} is the property path to bind to. The proper
 The object set in the BindingContext is an instace of the about model. The binding path of one of the given label control binds the Label.Text property of the control to the About.Title property of the Model class.
 
 
-#--- Binding syntax in the code behind -----
+# --- Binding syntax in the code behind -----
 
 **-- FINDING IT FROM DECLERATION WITHIN THE XAML --**
 Use and if Statement to determin the Binding Context.
@@ -249,7 +249,7 @@ This must be done within the xaml.cs / code behind constructor.
 
 
 ---
-##----- App Navigation outside of AppShell.xaml ------
+## ----- App Navigation outside of AppShell.xaml ------
 
 
 Notice the await and async keyword's
@@ -265,7 +265,7 @@ To use the await keyword on the app navigation code line the method / function m
 
 
 ---
-##------ Life Cycle -------------------
+## ------ Life Cycle -------------------
 
 Within the View codeBehind
 
